@@ -17,7 +17,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar  navbar-expand-lg"
+        :class="{'navbar-light bg-lighht': !useDarkNavbar, 'navbar-dark bg-dark' : useDarkNavbar}">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -27,12 +28,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <!-- Kenapa v-for="link dari links" ada disini? dikarenakan sifat vue sendiri menginginkan kita untuk memahami Code kita -->
-                    <li v-for="(link,  index) in links" class="nav-item" :key="index">
-                        <a class="nav-link active" aria-current="page" :title="`This link goes to ${link.text}`"
-                            v-bind:href="link.url">{{ index }}{{ link.text }}</a>
+                    <li v-for="(page,  index) in pages" class="nav-item" :key="index">
+                        <a class="nav-link" aria-current="page" :class="{active: activePage == index}"
+                            :title="`This link goes to ${page.link.text}`" @click.prevent="activePage = index"
+                            v-bind:href="page.link.url">{{ index }}
+                            {{ page.link.text }}</a>
                     </li>
                 </ul>
+
             </div>
+            <form class="d-flex" action="">
+                <button class="btn btn-primary" @click.prevent="useDarkNavbar = !useDarkNavbar">dark</button>
+            </form>
         </div>
     </nav>
 
@@ -47,8 +54,8 @@
     </footer>
 
     <div id="content">
-        <h1>{{ pageTitle }}</h1>
-        <p>{{ content }}</p>
+        <h1>{{ pages[activePage].pageTitle }}</h1>
+        <p>{{ pages[activePage].content }}</p>
     </div>
 
 
@@ -65,35 +72,58 @@
         Vue.createApp({
             data() {
                 return {
-                    links: [{
-                            text: 'Home',
-                            url: 'index.html'
+                    activePage: 0,
+                    useDarkNavbar: false,
+                    pages: [{
+                            link: {
+                                text: 'Home',
+                                url: 'index.html'
+                            },
+                            pageTitle: 'Home Page',
+                            content: 'This is the Home Content'
                         },
                         {
-                            text: 'About',
-                            url: 'about.html'
+                            link: {
+                                text: 'About',
+                                url: 'about.html'
+                            },
+                            pageTitle: 'About Page',
+                            content: 'This is the About Content'
                         },
                         {
-                            text: 'Contact',
-                            url: 'contact.html'
+                            link: {
+                                text: 'Contact',
+                                url: 'contact.html'
+                            },
+                            pageTitle: 'Contact Page',
+                            content: 'This is the Contact Content'
                         },
+
                     ]
+
                 };
             }
-        }).mount('nav');
+        }).mount('body');
 
 
         // Vue Instance
-        Vue.createApp({
+        //     Vue.createApp({
 
-            //State
-            data() {
-                return {
-                    pageTitle: 'Hello, Vue!',
-                    content: 'Welcome to wonderful World of VUE!'
-                };
-            }
-        }).mount('#content');
+        //         //State
+        //         data() {
+        //             return {
+        //                 pageTitle: 'Hello, Home!',
+        //                 content: 'Welcome to wonderful World of VUE!'
+        //             }, {
+        //                 pageTitle: 'Hello, About!',
+        //                 content: 'Welcome to wonderful World of VUE!'
+        //             }, {
+        //                 pageTitle: 'Hello, Contact!',
+        //                 content: 'Welcome to wonderful World of VUE!'
+        //             };
+        //         }
+        //     }).mount('#content');
+        // 
     </script>
 </body>
 
