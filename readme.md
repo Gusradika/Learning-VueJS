@@ -1,1 +1,1 @@
-<h1>VUE.js</h1>
+<h1>VUE.js Without CLI</h1>
