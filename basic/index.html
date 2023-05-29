@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg" :class="navbarClasses">
+    <nav :class="[`navbar-${theme}`, `bg-${theme}`, 'navbar' , 'navbar-expand-lg']">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -36,7 +36,8 @@
                 </ul>
             </div>
             <form class="d-flex" action="">
-                <button class="btn btn-primary" @click.prevent="useDarkNavbar = !useDarkNavbar">dark</button>
+                <button class="btn btn-primary"
+                    @click.prevent="theme = theme == 'light' ? 'dark' : 'light'">dark</button>
             </form>
         </div>
     </nav>
@@ -68,18 +69,10 @@
         // Data
 
         Vue.createApp({
-            computed: {
-                navbarClasses() {
-                    return {
-                        'navbar-light bg-light': !this.useDarkNavbar,
-                        'navbar-dark bg-dark': this.useDarkNavbar
-                    }
-                }
-            },
             data() {
                 return {
+                    theme: 'dark',
                     activePage: 0,
-                    useDarkNavbar: false,
                     pages: [{
                             link: {
                                 text: 'Home',
